@@ -14,10 +14,10 @@ const (
 type FigurinhaPosition string
 
 const (
-	PositionGoalkeeper FigurinhaPosition = "goleiro" 
-	PositionDefender FigurinhaPosition = "zagueiro"
-	PositionMidfielder FigurinhaPosition = "meio_campista"
-	PositionForward FigurinhaPosition = "atacante"
+	PositionGoalkeeper FigurinhaPosition = "Goleiro" 
+	PositionDefender FigurinhaPosition = "Zagueiro"
+	PositionMidfielder FigurinhaPosition = "Meio-campista"
+	PositionForward FigurinhaPosition = "Atacante"
 )
 
 var ValidType = map[FigurinhaType]bool{
@@ -39,19 +39,19 @@ type Figurinha struct {
 	Numero      string            `json:"numero"      gorm:"not null"`
 	Tipo        FigurinhaType     `json:"tipo"        gorm:"not null"`
 	Posicao     FigurinhaPosition `json:"posicao"     gorm:"not null"`
-	UpdateAt    time.Time      	  `json:"update_at"   gorm:"not null"`
+	UpdateAt    time.Time      	  `json:"updated_at"   gorm:"not null"`
 	CreatedAt   time.Time         `json:"created_at"  gorm:"not null"` 
 }
 
 
 type CreateFigureRequest struct {
-	Numero     string            `json:"numero"    binding:"required,min=6"`
+	Numero     string            `json:"numero"    binding:"required"`
 	Tipo       FigurinhaType     `json:"tipo"      binding:"required"`
 	Posicao    FigurinhaPosition `json:"posicao"   binding:"required"`
 }
 
 type UpdateFigureRequest struct {
-	Numero     string            `json:"numero"    binding:"omitempty,min=6"`
+	Numero     string            `json:"numero"    binding:"omitempty"`
 	Tipo       FigurinhaType     `json:"tipo"      binding:"omitempty"`
 	Posicao    FigurinhaPosition `json:"posicao"   binding:"omitempty"`
 }

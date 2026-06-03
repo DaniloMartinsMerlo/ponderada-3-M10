@@ -22,14 +22,13 @@ func (h *FigureHandler) RegisterRoutes(r *gin.Engine) {
 	r.POST("/figurinha", h.Create)
 	r.GET("/figurinha", h.ListAll)
 	r.GET("/figurinha/:id", h.GetByID)
-	r.PATCH("/figurinha/:id", h.Update)
+	r.PUT("/figurinha/:id", h.Update)
 	r.DELETE("/figurinha/:id", h.Delete)
 }
 
 func (h *FigureHandler) Create(c *gin.Context) {
 	var req domain.CreateFigureRequest
 
-	// ShouldBindJSON valida as tags `binding:` do DTO e rejeita JSON malformado
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -64,8 +63,6 @@ func (h *FigureHandler) ListAll(c *gin.Context) {
 	c.JSON(http.StatusOK, figurinhas)
 }
 
-// GetByID GET /expenses/:id
-// 200 OK com o gasto, 404 se não existir.
 func (h *FigureHandler) GetByID(c *gin.Context) {
 	id, err := parseID(c)
 	if err != nil {
@@ -131,12 +128,12 @@ func parseID(c *gin.Context) (uint, error) {
 func mapErrorToStatus(err error) int {
 	switch {
 	case errors.Is(err, service.ErrFigureNotFound):
-		return http.StatusNotFound // 404
+		return http.StatusNotFound
 	case errors.Is(err, service.ErrInvalidNumber),
 		errors.Is(err, service.ErrInvalidType),
 		errors.Is(err, service.ErrInvalidPosition):
-		return http.StatusBadRequest // 400
+		return http.StatusBadRequest
 	default:
-		return http.StatusInternalServerError // 500
+		return http.StatusInternalServerError
 	}
 }

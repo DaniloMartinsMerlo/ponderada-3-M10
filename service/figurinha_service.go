@@ -10,6 +10,8 @@ import (
 	"regexp"
 )
 
+var numeroRegex = regexp.MustCompile(`^[A-Za-z]{3} \d{2}$`)
+
 var (
 	ErrFigureNotFound      = errors.New("figurinha não encontrada")
 	ErrInvalidNumber       = errors.New("o numero informado é invalido, precisa ter o padrão: XXX 00, considere xxx é equivalente a federação e os números são o numero do jogador")
@@ -35,15 +37,13 @@ func NewFigureService(repo repository.FigureRepository) FigureService {
 
 func (s *figureService) Create(req domain.CreateFigureRequest) (*domain.Figurinha, error) {
 	
-	var numeroRegex = regexp.MustCompile(`^[A-Za-z]{3} \d{2}$`)
 
 	if len(req.Numero) < 6 {
 		return nil, ErrInvalidNumber
 	}
 
-	if !numeroRegex.MatchString(req.Numero) {
-		return nil, ErrInvalidNumber
-	}
+	validateNumero(red.Numero)
+
 
 	if !domain.ValidType[req.Tipo] {
 		return nil, ErrInvalidType
@@ -104,15 +104,12 @@ func (s *figureService) Update(id uint, req domain.UpdateFigureRequest) (*domain
 	}
 
 	if req.Numero != "" {
-		var numeroRegex = regexp.MustCompile(`^[A-Za-z]{3} \d{2}$`)
 
 		if len(req.Numero) < 6 {
 			return nil, ErrInvalidNumber
 		}
 
-		if !numeroRegex.MatchString(req.Numero) {
-			return nil, ErrInvalidNumber
-		}
+		validateNumero(red.Numero)
 
 		figurinha.Numero = req.Numero
 	}
@@ -146,4 +143,11 @@ func (s *figureService) Delete(id uint) error {
 		return err
 	}
 	return s.repo.Delete(id)
+}
+
+func validateNumero(numero string) error {
+    if !numeroRegex.MatchString(numero) {
+        return ErrInvalidNumber
+    }
+    return nil
 }

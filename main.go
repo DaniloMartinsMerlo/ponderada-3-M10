@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	// 1. Banco de dados — erro fatal aqui, pois sem banco nada funciona
+
 	db, err := gorm.Open(sqlite.Open("figurinhas.db"), &gorm.Config{})
 	if err != nil {
 		log.Fatalf("erro ao abrir banco de dados: %v", err)
@@ -32,7 +32,7 @@ func main() {
 	h.RegisterRoutes(r)
 
 	log.Println("Servidor iniciado em http://localhost:8080")
-	if err := r.Run(":42069"); err != nil {
+	if err := r.Run(":8080"); err != nil {
 		log.Fatalf("erro ao iniciar servidor: %v", err)
 	}
 }
