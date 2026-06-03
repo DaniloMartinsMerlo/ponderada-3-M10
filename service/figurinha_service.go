@@ -37,12 +37,9 @@ func NewFigureService(repo repository.FigureRepository) FigureService {
 
 func (s *figureService) Create(req domain.CreateFigureRequest) (*domain.Figurinha, error) {
 	
-
-	if len(req.Numero) < 6 {
-		return nil, ErrInvalidNumber
+	if err := validateNumero(req.Numero); err != nil {
+		return nil, err
 	}
-
-	validateNumero(red.Numero)
 
 
 	if !domain.ValidType[req.Tipo] {
@@ -105,11 +102,9 @@ func (s *figureService) Update(id uint, req domain.UpdateFigureRequest) (*domain
 
 	if req.Numero != "" {
 
-		if len(req.Numero) < 6 {
-			return nil, ErrInvalidNumber
+		if err := validateNumero(req.Numero); err != nil {
+    		return nil, err
 		}
-
-		validateNumero(red.Numero)
 
 		figurinha.Numero = req.Numero
 	}
