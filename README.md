@@ -1,4 +1,4 @@
-# Figurinhas  Ponderada 3
+# Figurinhas - Ponderada 3
 
 API REST desenvolvida em Go para gerenciar figurinhas da Copa do Mundo, construída com os princípios de Clean Code e arquitetura em camadas.
 
