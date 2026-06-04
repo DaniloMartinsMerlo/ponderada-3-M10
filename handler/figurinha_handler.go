@@ -44,13 +44,12 @@ func (h *FigureHandler) Create(c *gin.Context) {
 	c.JSON(http.StatusCreated, figurinha)
 }
 
-
 func (h *FigureHandler) ListAll(c *gin.Context) {
 	tipo := c.Query("tipo")
 	posicao := c.Query("posicao")
 	req := domain.FindAllFigureRequest{
-		Tipo:     domain.FigurinhaType(tipo),
-		Posicao:  domain.FigurinhaPosition(posicao),
+		Tipo:    domain.FigureType(tipo),
+		Posicao: domain.FigurePosition(posicao),
 	}
 
 	figurinhas, err := h.svc.ListAll(req)

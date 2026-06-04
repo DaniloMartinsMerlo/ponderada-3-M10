@@ -5,10 +5,9 @@ import (
 	"gorm.io/gorm"
 )
 
-
 type FigureRepository interface {
 	Create(figurinha *domain.Figurinha) (*domain.Figurinha, error)
-	FindAll(tipo domain.FigurinhaType, posicao domain.FigurinhaPosition) ([]domain.Figurinha, error)
+	FindAll(tipo domain.FigureType, posicao domain.FigurePosition) ([]domain.Figurinha, error)
 	FindByID(id uint) (*domain.Figurinha, error)
 	Update(figurinha *domain.Figurinha) (*domain.Figurinha, error)
 	Delete(id uint) error
@@ -22,7 +21,6 @@ func NewFigureRepository(db *gorm.DB) FigureRepository {
 	return &figureRepository{db: db}
 }
 
-
 func (r *figureRepository) Create(figurinha *domain.Figurinha) (*domain.Figurinha, error) {
 	if err := r.db.Create(figurinha).Error; err != nil {
 		return nil, err
@@ -31,9 +29,7 @@ func (r *figureRepository) Create(figurinha *domain.Figurinha) (*domain.Figurinh
 	return figurinha, nil
 }
 
-
-
-func (r *figureRepository) FindAll(tipo domain.FigurinhaType, posicao domain.FigurinhaPosition) ([]domain.Figurinha, error) {
+func (r *figureRepository) FindAll(tipo domain.FigureType, posicao domain.FigurePosition) ([]domain.Figurinha, error) {
 	var figurinhas []domain.Figurinha
 
 	query := r.db.Order("created_at DESC")

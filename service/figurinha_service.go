@@ -14,9 +14,9 @@ var numeroRegex = regexp.MustCompile(`^[A-Za-z]{3} \d{2}$`)
 
 var (
 	ErrFigureNotFound      = errors.New("figurinha não encontrada")
-	ErrInvalidNumber       = errors.New("o numero informado é invalido, precisa ter o padrão: XXX 00, considere xxx é equivalente a federação e os números são o numero do jogador")
+	ErrInvalidNumber       = errors.New("o número informado é invalido, precisa ter o padrão: XXX 00, considere xxx é equivalente a federação e 00 é o número do jogador")
 	ErrInvalidType         = errors.New("o tipo informado é invalido")
-	ErrInvalidPosition     = errors.New("a posicao indormada é invalida")
+	ErrInvalidPosition     = errors.New("a posição informada é invalida")
 )
 
 type FigureService interface {
@@ -40,7 +40,6 @@ func (s *figureService) Create(req domain.CreateFigureRequest) (*domain.Figurinh
 	if err := validateNumero(req.Numero); err != nil {
 		return nil, err
 	}
-
 
 	if !domain.ValidType[req.Tipo] {
 		return nil, ErrInvalidType
